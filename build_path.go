@@ -135,6 +135,11 @@ func buildParameter(r restful.Route, restfulParam *restful.Parameter, cfg Config
 		p.Schema = new(spec.Schema)
 		p.Schema.Ref = spec.MustCreateRef("#/definitions/" + param.DataType)
 		p.SimpleSchema = spec.SimpleSchema{}
+	} else if param.Kind == restful.BodyParameterKind && r.ReadSchema != nil {
+		switch schema := r.ReadSchema.(type) {
+		case spec.Schema:
+			p.Schema = &schema
+		}
 	} else {
 		p.Type = param.DataType
 		p.Default = stringAutoType(param.DefaultValue)
