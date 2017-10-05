@@ -14,6 +14,30 @@ type UserResource struct {
 	users map[string]User
 }
 
+func schemaUserCreate() spec.Schema {
+	return spec.Schema{
+		SchemaProps: spec.SchemaProps{
+			Required: []string{"name", "age"},
+			Properties: map[string]spec.Schema{
+				"name": {
+					SchemaProps: spec.SchemaProps{
+						Type: []string{"string"},
+						MinLength: &[]int64{4}[0],
+						MaxLength: &[]int64{255}[0],
+					},
+				},
+				"age": {
+					SchemaProps: spec.SchemaProps{
+						Type: []string{"int"},
+						MinLength: &[]int64{1}[0],
+						MaxLength: &[]int64{3}[0],
+					},
+				},
+			},
+		},
+	}
+}
+
 func (u UserResource) WebService() *restful.WebService {
 	ws := new(restful.WebService)
 	ws.
@@ -50,7 +74,7 @@ func (u UserResource) WebService() *restful.WebService {
 		// docs
 		Doc("create a user").
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Reads(User{})) // from the request
+		ReadsWithSchema(User{}, schemaUserCreate())) // from the request
 
 	ws.Route(ws.DELETE("/{user-id}").To(u.removeUser).
 		// docs
@@ -124,7 +148,7 @@ func main() {
 
 	config := restfulspec.Config{
 		WebServices:    restful.RegisteredWebServices(), // you control what services are visible
-		WebServicesURL: "http://localhost:8080",
+		WebServicesURL: "http://localhost:8888",
 		APIPath:        "/apidocs.json",
 		PostBuildSwaggerObjectHandler: enrichSwaggerObject}
 	restful.DefaultContainer.Add(restfulspec.NewOpenAPIService(config))
@@ -134,8 +158,8 @@ func main() {
 	// Open http://localhost:8080/apidocs/?url=http://localhost:8080/apidocs.json
 	http.Handle("/apidocs/", http.StripPrefix("/apidocs/", http.FileServer(http.Dir("/home/v/Downloads/swagger-ui"))))
 
-	log.Printf("start listening on localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Printf("start listening on localhost:8888")
+	log.Fatal(http.ListenAndServe(":8888", nil))
 }
 
 func enrichSwaggerObject(swo *spec.Swagger) {
