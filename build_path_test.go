@@ -33,20 +33,20 @@ func TestRouteToPath(t *testing.T) {
 	p := buildPaths(ws, Config{})
 	t.Log(asJSON(p))
 
-	if p.Paths["/tests/{v}/a/{b}"].Get.Parameters[0].Type != "string" {
+	if p.Paths["/a/{b}"].Get.Parameters[0].Type != "string" {
 		t.Error("Parameter type is not set.")
 	}
-	if _, exists := p.Paths["/tests/{v}/a/{b}/{c}/{d}/e"]; !exists {
+	if _, exists := p.Paths["/a/{b}/{c}/{d}/e"]; !exists {
 		t.Error("Expected path to exist after it was sanitized.")
 	}
 
-	if p.Paths["/tests/{v}/a/{b}"].Get.Description != description {
+	if p.Paths["/a/{b}"].Get.Description != description {
 		t.Errorf("GET description incorrect")
 	}
-	if p.Paths["/tests/{v}/a/{b}"].Get.Summary != "get the a b test" {
+	if p.Paths["/a/{b}"].Get.Summary != "get the a b test" {
 		t.Errorf("GET summary incorrect")
 	}
-	response := p.Paths["/tests/{v}/a/{b}"].Get.Responses.StatusCodeResponses[200]
+	response := p.Paths["/a/{b}"].Get.Responses.StatusCodeResponses[200]
 	if response.Schema.Type[0] != "array" {
 		t.Errorf("response type incorrect")
 	}
@@ -55,7 +55,7 @@ func TestRouteToPath(t *testing.T) {
 	}
 
 	// Test for patterns
-	path := p.Paths["/tests/{v}/a/{b}/{c}/{d}/e"]
+	path := p.Paths["/a/{b}/{c}/{d}/e"]
 	checkPattern(t, path, "c", "[a-z]+")
 	checkPattern(t, path, "d", "[1-9]+")
 	checkPattern(t, path, "v", "")

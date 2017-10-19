@@ -18,6 +18,8 @@ func buildPaths(ws *restful.WebService, cfg Config) spec.Paths {
 	p := spec.Paths{Paths: map[string]spec.PathItem{}}
 	for _, each := range ws.Routes() {
 		path, patterns := sanitizePath(each.Path)
+		// remove webservice root path
+		path = strings.TrimPrefix(path, ws.RootPath())
 		existingPathItem, ok := p.Paths[path]
 		if !ok {
 			existingPathItem = spec.PathItem{}
