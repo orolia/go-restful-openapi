@@ -41,20 +41,20 @@ func schemaUserCreate() spec.Schema {
 func (u UserResource) WebService() *restful.WebService {
 	ws := new(restful.WebService)
 	ws.
-		Path("/users").
+		Path("/v3").
 		Consumes(restful.MIME_XML, restful.MIME_JSON).
 		Produces(restful.MIME_JSON, restful.MIME_XML) // you can specify this per route as well
 
 	tags := []string{"users"}
 
-	ws.Route(ws.GET("/").To(u.findAllUsers).
+	ws.Route(ws.GET("/users/").To(u.findAllUsers).
 		// docs
 		Doc("get all users").
 		Metadata(restfulspec.KeyOpenAPITags, tags).
 		Writes([]User{}).
 		Returns(200, "OK", []User{}))
 
-	ws.Route(ws.GET("/{user-id}").To(u.findUser).
+	ws.Route(ws.GET("/users/{user-id}").To(u.findUser).
 		// docs
 		Doc("get a user").
 		Param(ws.PathParameter("user-id", "identifier of the user").DataType("integer").DefaultValue("1")).
@@ -63,20 +63,20 @@ func (u UserResource) WebService() *restful.WebService {
 		Returns(200, "OK", User{}).
 		Returns(404, "Not Found", nil))
 
-	ws.Route(ws.PUT("/{user-id}").To(u.updateUser).
+	ws.Route(ws.PUT("/users/{user-id}").To(u.updateUser).
 		// docs
 		Doc("update a user").
 		Param(ws.PathParameter("user-id", "identifier of the user").DataType("string")).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
 		Reads(User{})) // from the request
 
-	ws.Route(ws.PUT("").To(u.createUser).
+	ws.Route(ws.POST("/users").To(u.createUser).
 		// docs
 		Doc("create a user").
 		Metadata(restfulspec.KeyOpenAPITags, tags).
 		ReadsWithSchema(User{}, schemaUserCreate())) // from the request
 
-	ws.Route(ws.DELETE("/{user-id}").To(u.removeUser).
+	ws.Route(ws.DELETE("/users/{user-id}").To(u.removeUser).
 		// docs
 		Doc("delete a user").
 		Metadata(restfulspec.KeyOpenAPITags, tags).

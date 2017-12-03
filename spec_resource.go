@@ -27,8 +27,9 @@ func BuildSwagger(config Config) *spec.Swagger {
 	// collect paths and model definitions to build Swagger object.
 	paths := &spec.Paths{Paths: map[string]spec.PathItem{}}
 	definitions := spec.Definitions{}
-
+	var basePath string
 	for _, each := range config.WebServices {
+		basePath = each.RootPath()
 		for path, item := range buildPaths(each, config).Paths {
 			paths.Paths[path] = item
 		}
@@ -42,6 +43,9 @@ func BuildSwagger(config Config) *spec.Swagger {
 			Paths:       paths,
 			Definitions: definitions,
 		},
+	}
+	if basePath != "" {
+		swagger.BasePath = basePath
 	}
 	if config.PostBuildSwaggerObjectHandler != nil {
 		config.PostBuildSwaggerObjectHandler(swagger)

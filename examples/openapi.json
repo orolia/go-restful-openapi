@@ -14,6 +14,7 @@
     },
     "version": "1.0.0"
   },
+  "basePath": "/v3",
   "paths": {
     "/users": {
       "get": {
@@ -52,7 +53,7 @@
           }
         }
       },
-      "put": {
+      "post": {
         "description": "create a user",
         "consumes": [
           "application/xml",
@@ -73,7 +74,22 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/main.User"
+              "required": [
+                "name",
+                "age"
+              ],
+              "properties": {
+                "age": {
+                  "type": "int",
+                  "maxLength": 3,
+                  "minLength": 1
+                },
+                "name": {
+                  "type": "string",
+                  "maxLength": 255,
+                  "minLength": 4
+                }
+              }
             }
           }
         ],

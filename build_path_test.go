@@ -98,19 +98,20 @@ func TestMultipleMethodsRouteToPath(t *testing.T) {
 
 	p := buildPaths(ws, Config{})
 	t.Log(asJSON(p))
+	t.Log(p)
 
-	if p.Paths["/tests/a/a/b"].Get.Description != "get a b test" {
+	if p.Paths["/a/b"].Get.Description != "get a b test" {
 		t.Errorf("GET description incorrect")
 	}
-	if p.Paths["/tests/a/a/b"].Post.Description != "post a b test" {
+	if p.Paths["/a/b"].Post.Description != "post a b test" {
 		t.Errorf("POST description incorrect")
 	}
-	if _, exists := p.Paths["/tests/a/a/b"].Post.Responses.StatusCodeResponses[500]; !exists {
+	if _, exists := p.Paths["/a/b"].Post.Responses.StatusCodeResponses[500]; !exists {
 		t.Errorf("Response code 500 not added to spec.")
 	}
 
 	expectedRef := spec.MustCreateRef("#/definitions/restfulspec.Sample")
-	postBodyparam := p.Paths["/tests/a/a/b"].Post.Parameters[0]
+	postBodyparam := p.Paths["/a/b"].Post.Parameters[0]
 	postBodyRef := postBodyparam.Schema.Ref
 	if postBodyRef.String() != expectedRef.String() {
 		t.Errorf("Expected: %s, Got: %s", expectedRef.String(), postBodyRef.String())
