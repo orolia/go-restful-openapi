@@ -2,12 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/emicklei/go-restful"
-	"github.com/emicklei/go-restful-openapi"
-	spec2 "github.com/go-openapi/spec"
 	"io/ioutil"
 	"reflect"
 	"testing"
+
+	spec2 "github.com/go-openapi/spec"
+	restful "github.com/orolia/go-restful"
+	restfulspec "github.com/orolia/go-restful-openapi"
 )
 
 func TestAppleDef(t *testing.T) {

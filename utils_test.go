@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	restful "github.com/emicklei/go-restful"
 	"github.com/go-openapi/spec"
+	restful "github.com/orolia/go-restful"
 )
 
 func dummy(i *restful.Request, o *restful.Response) {}

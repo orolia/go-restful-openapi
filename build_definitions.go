@@ -3,8 +3,8 @@ package restfulspec
 import (
 	"reflect"
 
-	restful "github.com/emicklei/go-restful"
 	"github.com/go-openapi/spec"
+	restful "github.com/orolia/go-restful"
 )
 
 func buildDefinitions(ws *restful.WebService, cfg Config) (definitions spec.Definitions) {

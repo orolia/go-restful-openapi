@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/emicklei/go-restful"
-	restfulspec "github.com/emicklei/go-restful-openapi"
 	"github.com/go-openapi/spec"
+	restful "github.com/orolia/go-restful"
+	restfulspec "github.com/orolia/go-restful-openapi"
 )
 
 type UserResource struct {
@@ -21,14 +21,14 @@ func schemaUserCreate() spec.Schema {
 			Properties: map[string]spec.Schema{
 				"name": {
 					SchemaProps: spec.SchemaProps{
-						Type: []string{"string"},
+						Type:      []string{"string"},
 						MinLength: &[]int64{4}[0],
 						MaxLength: &[]int64{255}[0],
 					},
 				},
 				"age": {
 					SchemaProps: spec.SchemaProps{
-						Type: []string{"int"},
+						Type:      []string{"int"},
 						MinLength: &[]int64{1}[0],
 						MaxLength: &[]int64{3}[0],
 					},
