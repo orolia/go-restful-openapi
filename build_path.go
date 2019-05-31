@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	restful "github.com/emicklei/go-restful"
+	restful "github.com/orolia/go-restful"
 	"github.com/go-openapi/spec"
 )
 
