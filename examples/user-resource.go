@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/emicklei/go-restful"
-	restfulspec "github.com/emicklei/go-restful-openapi"
+	"github.com/orolia/go-restful"
+	restfulspec "github.com/orolia/go-restful-openapi"
 	"github.com/go-openapi/spec"
 )
 
